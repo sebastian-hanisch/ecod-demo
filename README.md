@@ -15,7 +15,7 @@ und seine parameterfreie Schwelle stimmt bei den korrelierten Kennzahlen nicht (
 elliptic-envelope-demo (Wurzel: robuste Ellipse)
   ├─ ecod-demo                  (Kontrast: verteilungsfrei)                              [dieses Stück]
   ├─ lof-demo → feature-bagging-demo (lokale Dichte; Ensembles gegen viele Merkmale)     [beide gebaut]
-  ├─ One-Class SVM → Deep SVDD  (gelernte Grenze)                                        [nicht gebaut]
+  ├─ One-Class SVM → Deep SVDD  (gelernte Grenze)                                        [beide gebaut]
   ├─ isolation-forest-demo → extended-isolation-forest-demo (Zufallsbäume)               [beide gebaut]
   └─ autoencoder-anomalie-demo  (Rekonstruktionsfehler)                                  [gebaut]
 ```
@@ -81,7 +81,7 @@ Regler: Touren (20–600), Merkmale (2–30), Rauschmerkmale (0–40), Betriebsa
 ## Verifikation
 
 - ECOD: Handinstanz der Schwanzwahrscheinlichkeiten mit Bindungen, Handinstanz der drei Summen, **eine Referenzimplementierung mit expliziten Schleifen** (paper, auto, zweiseitig, mit Bindungen), Schiefe-Richtung, **Kreuzprüfung gegen PyOD** (falls installiert, < 1e-9),
-  **Rang-Invarianz** unter monotonen Umrechnungen je Merkmal (die Mahalanobis-Abstände ändern sich, ECOD nicht), Determinismus und Zeilen-Äquivarianz, die zweiseitige Summe unter Unabhängigkeit ist Gamma(p, 1) (Simulation, Kolmogorov-Smirnov) und das Quantil trifft den Sollwert, die Original-Variante überschreitet ihn.
+  **Rang-Invarianz** der zweiseitigen Variante unter monotonen Umrechnungen je Merkmal (die Mahalanobis-Abstände ändern sich, ECOD nicht; Paper und O_auto hängen zusätzlich vom Vorzeichen der Schiefe ab), Determinismus und Zeilen-Äquivarianz, die zweiseitige Summe unter Unabhängigkeit ist Gamma(p, 1) (Simulation, Kolmogorov-Smirnov) und das Quantil trifft den Sollwert, die Original-Variante überschreitet ihn.
 - Übernommene Bausteine: LOF, Isolation Forest, Wurzel-Schätzer (χ² gegen scipy). Szenario: normale Zeilen wie in der PCA-Demo (eingefrorene Zeilensummen), eingefrorener Standardfall, `n_noise` ändert nur angehängte Spalten, exakter Anomalie-Anteil, Geometrie der Arten;
   **Korrelationsbruch**: Spalten der Anomalien stammen aus den Normalen, Korrelation zerstört, Randverteilungen gleich, die Normalen bleiben bit-identisch.
 - **Alle Zahlen der App-Texte sind als Tests hinterlegt** (Seitenleiste, Presets, Grenzen-Tabelle, Szenarien-, Varianten-, Kalibrierungs-, Rauschmerkmale-, Dichte-Gruppe-, Schwellen- und Kostentabellen; jeweils Mittel über die festen Sweep-Datensätze, positive **und** negative Aussagen; Rechenzeiten nur als Größenordnung/Verhältnis);
@@ -119,6 +119,4 @@ pytest tests/ -v
 
 ---
 
-Teil des [Operations-Research-Demo-Portfolios](https://sebastianhanisch.net/demos.html) von
-[Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning.
-Interesse an einer maßgeschneiderten Lösung? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html).
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Anomalie-Erkennung: Ellipse bis Autoencoder](https://sebastianhanisch.net/konzepte-anomalie-erkennung.html).

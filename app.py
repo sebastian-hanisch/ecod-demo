@@ -115,7 +115,7 @@ Diese Demo misst, was das bringt - und wo es blind macht.
 st.caption(
     "Anders als die Fall-Demos im Portfolio, die an einem Anwendungsfall mehrere Verfahren vergleichen, zeigt diese Demo - sechstes Stück der Anomalie-Erkennung-Linie der \"Konzepte\"-Reihe - **ein** Verfahren an einem wachsenden Beispiel. "
     "Szenario, LOF, Isolation Forest und die robuste Schätzung der Wurzel sind wortgleich aus den Vorgänger-Demos übernommen (die klassische Schätzung entfällt, damit die Balken lesbar bleiben); neu ist die Anomalie-Art **Korrelationsbruch**. "
-    "Die Linie hat keinen Konvergenzpunkt; ECOD ist ein eigener Ast, seine Nachbarn sind One-Class SVM, Deep SVDD und ein Autoencoder (noch nicht gebaut)."
+    "Die Linie hat keinen Konvergenzpunkt; ECOD ist ein eigener Ast, seine Nachbarn sind One-Class SVM, Deep SVDD und ein Autoencoder (alle gebaut)."
 )
 
 with st.expander("So funktioniert ECOD", expanded=True):
@@ -394,7 +394,7 @@ with d2c:
               "ECOD": [f"{a.seconds['ecod'] * 1000:.1f} ms", "keine", "Randverteilungen, Summe der −log F", f"{values[~ds.anomaly].mean():.1f} / {values[ds.anomaly].mean():.1f}"],
               "LOF": [f"{a.seconds['lof'] * 1000:.1f} ms", "k = 20 (höchstens n / 2)", "Dichte gegenüber den Nachbarn", f"{a.values['lof'][~ds.anomaly].mean():.2f} / {a.values['lof'][ds.anomaly].mean():.2f}"],
               "Isolation Forest": [f"{a.seconds['iforest'] * 1000:.0f} ms", f"{len(a.forest_if.trees)} Bäume × ψ = {a.forest_if.psi}", "Pfadlänge in zufälligen Bäumen", f"{a.values['iforest'][~ds.anomaly].mean():.2f} / {a.values['iforest'][ds.anomaly].mean():.2f}"]})
-    st.caption("ECOD ist deterministisch und braucht keine Standardisierung (nur die Ränge der Werte je Merkmal zählen: eine monotone Umrechnung eines Merkmals ändert nichts). Die klassische Schätzung der Wurzel entfällt in dieser Demo.")
+    st.caption("ECOD ist deterministisch und braucht keine Standardisierung (nur die Ränge der Werte je Merkmal zählen, bei der zweiseitigen Variante streng; Paper und O_auto nutzen zusätzlich das Vorzeichen der Schiefe: eine monotone Umrechnung eines Merkmals ändert dort nur, wenn sie das Vorzeichen kippt). Die klassische Schätzung der Wurzel entfällt in dieser Demo.")
 
 st.markdown("---")
 
@@ -537,7 +537,7 @@ st.markdown(
 """
 )
 st.caption(
-    "Die Nachbarn der Anomalie-Erkennung-Linie: die Wurzel Elliptic Envelope, LOF, Feature Bagging, Isolation Forest und Extended IF (gebaut), One-Class SVM und Deep SVDD, ein Autoencoder (noch nicht gebaut). "
+    "Die Nachbarn der Anomalie-Erkennung-Linie: die Wurzel Elliptic Envelope, LOF, Feature Bagging, Isolation Forest, Extended IF, One-Class SVM, Deep SVDD und der Autoencoder (alle gebaut). "
     "Keiner ist überlegen: ECOD gewinnt bei dichten Gruppen und vielen verstreuten Anomalien - ohne einen einzigen Parameter, ohne Zufall, in Millisekunden - und ist blind für gebrochene Abhängigkeiten und für die Lücke."
 )
 
@@ -556,7 +556,7 @@ Bei korrelierten Merkmalen ist die Summe überstreut - die Fehlalarmrate liegt �
 
 **Rauschmerkmale.** Jedes unabhängige Rauschmerkmal addiert im Mittel $1$ und mit Varianz $1$ (zweiseitig) zur Summe; $r$ Rauschmerkmale also $r \pm \sqrt r$ - gegen höchstens $\log n$ je informativem Merkmal.
 
-**Ränge.** Nur die Rangfolge je Merkmal geht ein: monotone Umrechnungen einzelner Merkmale ändern den Wert nicht (LOF und Mahalanobis-Abstände schon).
+**Ränge.** Nur die Rangfolge je Merkmal geht ein: monotone Umrechnungen einzelner Merkmale ändern den Wert der zweiseitigen Variante nicht (bei Paper und O_auto nur dann nicht, wenn das Vorzeichen der Schiefe gleich bleibt; LOF und Mahalanobis-Abstände schon).
 
 **Grenzen.** (1) Keine Abhängigkeit zwischen Merkmalen. (2) Anomalien in der Mitte der Randverteilungen wirken normaler als die Normalen. (3) Die Fisher-Schwelle gilt nur für unabhängige Merkmale. (4) Rauschmerkmale verrauschen die Summe.
 
@@ -569,6 +569,6 @@ st.markdown("---")
 
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Anomalie-Erkennung: Ellipse bis Autoencoder](https://sebastianhanisch.net/konzepte-anomalie-erkennung.html)."
 )
